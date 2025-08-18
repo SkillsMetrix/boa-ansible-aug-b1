@@ -1,27 +1,17 @@
+def get_positive_input(prompt):
+    while True:
+       
+            value = int(input(prompt))
+            if value > 0:
+                return value
+            else:
+                print("Enter a positive value greater than 0.")
+        
 
-# initiate the array
-user_data=[]
 
-# take input from the user for how many values
+data1 = get_positive_input("Enter your value-1: ")
+data2 = get_positive_input("Enter your value-2: ")
 
-data=int(input('Enter how many numbers you wanna add ? '))
-print(f"loop throuh ... {data}")
-
-# loop through that given range
-for i in range(data):
-    num= int(input(f" Enter number {i+1} : "))
-    user_data.append(num)
-print(f"values is array: {user_data}")
-
-# calculate even or odd
-for num in user_data:
-    if(num%2==0):
-        print(f"{num} is even")
-    else:
-        print(f"{num} is odd")
-
-# calculate the addition of all the numbers in the array
-total=0
-for data in user_data:
-    total +=data
-print(f"addition is {total}")
+# Addition
+c = data1 + data2
+print(f"Addition is: {c}")

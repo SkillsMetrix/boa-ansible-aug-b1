@@ -5,10 +5,23 @@ user_data=[]
 # take input from the user for how many values
 
 data=int(input('Enter how many numbers you wanna add ? '))
-print(f"ohh, that means i need to loop throuh ... {data}")
+print(f"loop throuh ... {data}")
 
 # loop through that given range
 for i in range(data):
     num= int(input(f" Enter number {i+1} : "))
     user_data.append(num)
 print(f"values is array: {user_data}")
+
+# calculate even or odd
+for num in user_data:
+    if(num%2==0):
+        print(f"{num} is even")
+    else:
+        print(f"{num} is odd")
+
+# calculate the addition of all the numbers in the array
+total=0
+for data in user_data:
+    total +=data
+print(f"addition is {total}")

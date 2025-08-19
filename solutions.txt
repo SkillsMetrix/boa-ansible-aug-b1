@@ -1,20 +1,43 @@
-class User:
-    # constructor
-    # def __init__(self,uname,email,city):
-    #     self.uname=uname
-    #     self.email=email
-    #     self.city=city
+from abc import ABC,abstractmethod
 
-    def __init__(self):
-        print('default cons called')
 
-    def showCity(self):
-        city=input('Enter city')
-        print('city will be called ', city)
+class RBI(ABC):
+    @abstractmethod
+    def withdraw(self):
+        pass
+    @abstractmethod
+    def deposit(self):
+        pass
+    @abstractmethod
+    def checkBalance(self):
+        pass
+     
+    def openSalaryAccount(self):
+        pass
 
-# constructor is getting called
-#user= User('Admin','admin@mail.com','pune')
-#print(user.uname,user.email,user.city)
-user= User()
+-----------
 
-user.showCity()
+from rbiclass import RBI
+
+class SBI(RBI):
+    def withdraw(self):
+        print("withdraw from SBI")
+     
+    def deposit(self):
+        print("deposit from SBI")
+     
+    def checkBalance(self):
+        print("check from SBI")
+        
+    def openFD(self):
+        print('FD account opened in SBI')
+
+
+------
+
+
+from sbiclass import SBI
+
+bank1= SBI()
+bank1.openFD()
+bank1.checkBalance()

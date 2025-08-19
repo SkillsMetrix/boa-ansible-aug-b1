@@ -1,43 +1,22 @@
-from abc import ABC,abstractmethod
+
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import sessionmaker
+
+SQL_DB = "sqlite:///./mytest.db"
+
+engine = create_engine(
+    SQL_DB, connect_args={"check_same_thread": False}
+
+)
+SessioLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+Base = declarative_base()
 
 
-class RBI(ABC):
-    @abstractmethod
-    def withdraw(self):
-        pass
-    @abstractmethod
-    def deposit(self):
-        pass
-    @abstractmethod
-    def checkBalance(self):
-        pass
-     
-    def openSalaryAccount(self):
-        pass
-
------------
-
-from rbiclass import RBI
-
-class SBI(RBI):
-    def withdraw(self):
-        print("withdraw from SBI")
-     
-    def deposit(self):
-        print("deposit from SBI")
-     
-    def checkBalance(self):
-        print("check from SBI")
-        
-    def openFD(self):
-        print('FD account opened in SBI')
-
-
-------
-
-
-from sbiclass import SBI
-
-bank1= SBI()
-bank1.openFD()
-bank1.checkBalance()
+def get_connection():
+    db = SessioLocal()
+    try:
+        yield db
+    finally:
+        db.close()

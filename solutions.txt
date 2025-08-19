@@ -1,17 +1,20 @@
-def get_positive_input(prompt):
-    while True:
-       
-            value = int(input(prompt))
-            if value > 0:
-                return value
-            else:
-                print("Enter a positive value greater than 0.")
-        
+class User:
+    # constructor
+    # def __init__(self,uname,email,city):
+    #     self.uname=uname
+    #     self.email=email
+    #     self.city=city
 
+    def __init__(self):
+        print('default cons called')
 
-data1 = get_positive_input("Enter your value-1: ")
-data2 = get_positive_input("Enter your value-2: ")
+    def showCity(self):
+        city=input('Enter city')
+        print('city will be called ', city)
 
-# Addition
-c = data1 + data2
-print(f"Addition is: {c}")
+# constructor is getting called
+#user= User('Admin','admin@mail.com','pune')
+#print(user.uname,user.email,user.city)
+user= User()
+
+user.showCity()

@@ -1,87 +1,13 @@
-
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-
-SQL_DB = "sqlite:///./mytest.db"
-
-engine = create_engine(
-    SQL_DB, connect_args={"check_same_thread": False}
-
-)
-SessioLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-Base = declarative_base()
-
-
-def get_connection():
-    db = SessioLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-
------
-
-
-
-from pydantic import BaseModel
-
-# the data you are expecting from the client
-class Base(BaseModel):
-
-    name: str
-    sclass: str
-    section: str
-
-
----
-# schema represenation
-
-from sqlalchemy import Column,String
-from .database import Base
-
-class Student(Base):
-    __tablename__="STUDENT"
-
-    name= Column(String,primary_key=True)
-    sclass= Column(String)
-    section= Column(String)
-
-
-
----
-
-
-
-from fastapi import FastAPI,APIRouter,Depends,status
-from fastapi.params import Body
-from sqlalchemy.orm import Session
-from .. import schema,models
-from .. database import engine,get_connection
-
-
-router= APIRouter(tags=["Student Application"])
-
-# @router.post("/add")
-# def studentRegister(student: schema.Base, db:Session=Depends(get_connection)):
-#     return {"message":"db created"}
-
-
------
-
-
-
-from fastapi import FastAPI
-from .routers import studentapp
-
-from .database import engine,get_connection
-from . import models,schema
-
-# create table in db while loading model class
-models.Base.metadata.create_all(bind=engine)
-app=FastAPI()
-
-app.include_router(studentapp.router)
+- hosts: web
+  become: true
+  tasks:
+    - name: Create a directory on remote machine
+      file:
+        path: ./boa-user-dir
+        state: directory
+      register: dir_status
+    
+    - name: print message if dir is created
+      debug:
+        msg: "Directory boa-user is created"
+      when: dir_status.changed 

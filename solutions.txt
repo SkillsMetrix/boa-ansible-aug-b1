@@ -11,3 +11,41 @@
 - name: print OS Information
   debug:
     msg: "the underlying OS is  {{ansible_os_family}}"
+
+
+
+---
+
+
+ 
+  
+  
+    - name: install apache to the web remote machine
+      apt: 
+        name:
+          - apache2 
+        state: latest
+
+    - name: chacke the status of installation
+      command: systemctl status apache2
+      register: apache_status
+    
+    - name: print the status
+      debug:
+        msg: "{{apache_status.stdout}}"
+
+
+-----
+
+
+
+- hosts: web
+  become: true
+
+  pre_tasks:
+    - name: load the background check
+      import_tasks: pretask.yaml
+  
+  tasks:
+    - name: install software
+      import_tasks: maintask.yaml

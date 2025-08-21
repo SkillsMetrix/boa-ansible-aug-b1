@@ -1,13 +1,13 @@
-- hosts: web
-  become: true
-  tasks:
-    - name: install apache to the web remote machine
-      apt: name=apache2 update_cache=yes state=latest
+- name: check the background of remote machine
+  apt:
+    update_cache: true
+    cache_valid_time: 3600
 
-    - name: chacke the status of installation
-      command: systemctl status apache2
-      register: apache_status
-    
-    - name: print the status
-      debug:
-        msg: "{{apache_status.stdout}}"
+- name: Gather OS Information
+  setup:
+    gather_subset:
+      - "os_family"
+
+- name: print OS Information
+  debug:
+    msg: "the underlying OS is  {{ansible_os_family}}"

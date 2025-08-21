@@ -1,13 +1,13 @@
 - hosts: web
   become: true
   tasks:
-    - name: Create a directory on remote machine
-      file:
-        path: ./boa-user-dir
-        state: directory
-      register: dir_status
+    - name: install apache to the web remote machine
+      apt: name=apache2 update_cache=yes state=latest
+
+    - name: chacke the status of installation
+      command: systemctl status apache2
+      register: apache_status
     
-    - name: print message if dir is created
+    - name: print the status
       debug:
-        msg: "Directory boa-user is created"
-      when: dir_status.changed 
+        msg: "{{apache_status.stdout}}"

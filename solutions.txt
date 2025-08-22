@@ -1,1 +1,51 @@
-ansible-playbook -i ../inventory.ini playbook.yaml -e @group_vars/my_vault_base64.yaml --vault-password-file=pass_file/ansible-vault.pass  --key-file ../boa-aug-1.pem
+from openpyxl import Workbook
+
+# Create workbook and sheet
+wb = Workbook()
+sheet = wb.active
+sheet.title = "Employees"
+
+# Write header
+sheet.append(["Name", "Age", "Department"])
+
+# Write rows
+sheet.append(["John", 28, "HR"])
+sheet.append(["Alice", 24, "IT"])
+sheet.append(["Bob", 30, "Finance"])
+
+# Save file
+wb.save("employees.xlsx")
+print("Excel file created successfully!")
+
+
+
+-------
+
+
+from openpyxl import load_workbook
+
+# Load the Excel file
+wb = load_workbook("employees.xlsx")
+
+# Select the active sheet (first sheet)
+sheet = wb.active
+
+# Print sheet name
+print("Sheet Name:", sheet.title)
+
+# Read a single cell (A1 -> "Name")
+print("Cell A1:", sheet["A1"].value)
+
+# Read a row (row 2)
+row_data = [cell.value for cell in sheet[2]]
+print("Row 2:", row_data)
+
+# Loop through all rows
+print("\nAll Rows:")
+for row in sheet.iter_rows(values_only=True):
+    print(row)
+
+# Loop through a specific column (e.g., column A -> Names)
+print("\nColumn A (Names):")
+for cell in sheet["A"]:
+    print(cell.value)

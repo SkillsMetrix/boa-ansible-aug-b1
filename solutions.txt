@@ -1,17 +1,21 @@
-
-- name: read the data from var and set it to target
-  copy:
-    content: "{{message}}"
-    dest: /var/www/html/index.html
-
-
-
-
-
-- name: install required packages
+- name: uninstall apache web server
   apt:
-    - nginx
-    - git
-    - curl
-  state: latest
-  update_cache: true
+    name: apache2
+    state: absent
+  when: install_apache_flag
+
+- name: check the os version
+  debug:
+    var: ansible_facts['kernel_version']
+  when:
+    - ansible_facts['os_family'] =='Debian'
+    - ansible_facts['distribution_major_version'] >="20"
+
+- name: register the var
+  command: cat /home/ubuntu/boa_users.txt
+  register: data_content
+
+- name: use the var to validate
+  debug:
+    var: data_content.stdout
+  when: data_content.stdout.find('hey') !=-1

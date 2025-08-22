@@ -1,3 +1,5 @@
+- import_tasks: subtask.yaml
+
 - name: uninstall apache web server
   apt:
     name: apache2
@@ -18,4 +20,36 @@
 - name: use the var to validate
   debug:
     var: data_content.stdout
-  when: data_content.stdout.find('hey') !=-1
+  when: data_content.stdout.find('india') !=-1
+
+  
+------
+
+
+- name: check the background
+  debug:
+    msg: "OS: {{ansible_os_family}}, RAM : {{ansible_memtotal_mb}}: MB"
+
+- name: install packages on OS if RAM > 2GB
+  apt:
+    state: present
+    update_cache: yes
+  loop: "{{debian_packages}}"
+  when:
+      - ansible_os_family == 'Debian'
+      - ansible_memtotal_mb >= min_required_mb
+
+------
+
+
+
+install_apache_flag: false
+min_required_mb: 2048
+
+debian_packages:
+  - python3
+  - apache2
+
+redhat_packages:
+  - python3
+  - httpd
